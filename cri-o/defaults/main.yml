@@ -1,0 +1,13 @@
+---
+kernelModules:
+  - overlay
+  - br_netfilter
+
+sysctlParams:
+  - net.bridge.bridge-nf-call-iptables 
+  - net.ipv4.ip_forward                 
+  - net.bridge.bridge-nf-call-ip6tables 
+
+crioRepoRHEL: https://cbs.centos.org/repos/paas7-crio-311-candidate/x86_64/os/
+
+crioRepoUbuntu: ppa:projectatomic/ppa
