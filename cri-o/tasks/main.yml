@@ -1,0 +1,23 @@
+---
+
+- name: Enable kernel modules
+  modprobe:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ kernelModules }}"
+
+- name: Setup sysctl params
+  sysctl:
+    name: "{{ item }}"
+    value: '1'
+    sysctl_set: yes
+    loop: "{{ sysctlParams }}"
+
+- name: Install CRI-O
+  include_tasks: pkg.yml
+
+- name: Start and enable CRI-O
+  systemd:
+    name: crio
+    state: started
+    enabled: true

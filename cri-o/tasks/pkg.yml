@@ -1,0 +1,35 @@
+---
+- name: Install dependencies
+  when: ansible_os_family == "Debian"
+  apt:
+    name: software-properties-common
+    state: latest
+
+- name: Enable CRI-O repository
+  when: ansible_os_family == "Debian"
+  apt_repository:
+    repo: "{{ crioRepoUbuntu }}"
+    state: present
+
+- name: Install CRI-O
+  when: ansible_os_family == "Debian"
+  apt:
+    name: cri-o
+    state: present
+    update_cache: true
+
+---
+- name: Enable CRI-O repository
+  when: ansible_os_family == "RedHat"
+  yum_repository:
+    name: crio-o
+    description: CRI-O Repo
+    baseurl: "{{ crioRepo }}"
+    gpgcheck: no
+
+- name: Install CRI-O
+  when: ansible_os_family == "RedHat"
+  yum:
+    name: cri-o
+    state: installed
+    update_cache: true
